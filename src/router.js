@@ -5,6 +5,7 @@ const {
   getUsersHandler,
   publicHandler,
   postUserHandler,
+  registerHandler,
   errorHandler
 } = require('./handlers');
 
