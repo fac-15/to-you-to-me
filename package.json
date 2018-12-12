@@ -1,7 +1,7 @@
 {
   "name": "to-you-to-me",
   "version": "1.0.0",
-  "description": "",
+  "description": "An app to list your hobbies",
   "main": "dom.js",
   "directories": {
     "test": "test"
@@ -26,5 +26,13 @@
     "jsonwebtoken": "^8.4.0",
     "pg": "^7.7.1",
     "qs": "^6.6.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fac-15/to-you-to-me.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fac-15/to-you-to-me/issues"
+  },
+  "homepage": "https://github.com/fac-15/to-you-to-me#readme"
 }
