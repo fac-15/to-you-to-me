@@ -1,0 +1,30 @@
+{
+  "name": "to-you-to-me",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dom.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test_db": "tape test NODE_ENV=test node test/db.test.js | tap-spec",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.8",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie": "^0.3.1",
+    "env2": "^2.2.2",
+    "jsonwebtoken": "^8.4.0",
+    "pg": "^7.7.1",
+    "qs": "^6.6.0"
+  }
+}
