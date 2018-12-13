@@ -44,7 +44,7 @@ const publicHandler = (url, res) => {
 
 const registerUserHandler = (req, res) => {
   let data = "";
-  request.on("data", chunk => {
+  req.on("data", chunk => {
     data += chunk;
   });
   req.on('end', () => {
@@ -80,7 +80,7 @@ const registerUserHandler = (req, res) => {
     });
     postNewUser(name, userName, email, pass, (err) => {
       if (err) return serverError(err, res);
-      res.writeHead(302, { Location: '/login' });
+      res.writeHead(302, { Location: '/loginPage' });
       res.end();
     });
   });

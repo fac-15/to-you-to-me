@@ -30,7 +30,7 @@ const router = (req, res) => {
   } else if (endpoint === "registerPage") {
     registerPageHandler(req, res);
   } else if (endpoint === "register") {
-    registerData(req, res);
+    registerUserHandler(req, res);
   } else {
     publicHandler(url, res);
   }
