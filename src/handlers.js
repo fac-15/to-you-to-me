@@ -8,7 +8,7 @@ const getData = require('./queries/getdata.js');
 const postData = require('./queries/postdata.js');
 
 const serverError = (err, res) => {
-  res.writeHead(500, 'Content-Types':'text/html');
+  res.writeHead(500, {'Content-Type':'text/html'});
   res.end('<h1>Sorry there was a problem loading..</h1>');
 }
 
@@ -21,8 +21,9 @@ const homeHandler = (res) => {
   })
 }
 
-const publicHandler = (url, res => {
+const publicHandler = (url, res) => {
   const filepath = path.join(__dirname, "..", url);
+  // console.log('im working')
   readFile(filepath, (err, file) => {
     if (err) return serverError(err, res);
     const [extension] = url.split(".")[1];
@@ -32,39 +33,9 @@ const publicHandler = (url, res => {
       js: "application/javascript",
       ico: "image/x-icon"
     };
-    response.writeHead(200, { 'Content-Type': extensionType[extension] });
-    response.end(file);
-  });
-};
-
-const loginHandler = (requestMethod, requestUrl) => {
-  return readFile('./html/login.html', (err, file) => {
-      res.writeHead(302,
-        {
-          'Content-Type': 'text/html',
-          'Content-Length': data.length,
-           Location: '/',
-          'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=1000`
-        }
-      );
-      return res.end(file);
-    }
-  );
-}
-
-const logoutHandler = (requestMethod, requestUrl) => {
-  return readFile('./html/logout.html', (err, file) => {
-      res.writeHead(302,
-        {
-          'Content-Type': 'text/html',
-          'Content-Length': data.length,
-           Location: '/',
-          'Set-Cookie': `jwt=0; HttpOnly; Max-Age=0`
-        }
-      );
-      return res.end(file);
-    }
-  );
+    res.writeHead(200, { 'Content-Type': extensionType[extension] });
+    res.end(file);
+  })
 }
 
 const registerHandler = (req, res) => {
@@ -74,15 +45,49 @@ const registerHandler = (req, res) => {
     data += chunk;
   });
   request.on("end", () => {
-    const { uname, fname, email, pass } = qs.parse(data);
+    const { username, fname, email, pass } = qs.parse(data);
 
-    postData(uname, fname, email, pass err => {
+    postData(username, fname, email, pass, err => {
       if (err) return serverError(err, response);
-      response.writeHead(302, { Location: "/" });
-      response.end();
+      res.writeHead(302, { Location: "/login" });
+      res.end();
     });
   });
 };
+
+const loginHandler = (req, res) => {
+  let postData = "";
+  request.on("data", chunk => {
+    postData += chunk;
+  });
+  request.on("end", () => {
+    const { username, pass } = qs.parse(postData);
+
+    postData(username, pass, err => {
+      if (err) {
+        return serverError(err, response);
+      } else {
+        jwt.sign({logged_in: true}, process.env.JWT_SECRET, {}, (err, token) => {
+          res.writeHead(302,
+            { Location: "/",
+            'Set-Cookie': `data=${token}; HttpOnly, Max-Age=9000`
+          });
+          res.end();
+        })
+      }
+    });
+  });
+}
+
+const logoutHandler = (req, res) => {
+  res.writeHead(302,
+    {
+      'Content-Type': 'text/html',
+       Location: '/',
+      'Set-Cookie': 'data=0; HttpOnly; Max-Age=0'
+    });
+    res.end();
+  };
 
 const hobbyHandler = (req, res) => {
   // console.log("we're getting HOBBIES!");
