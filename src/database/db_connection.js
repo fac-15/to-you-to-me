@@ -1,5 +1,6 @@
-const { Pool } = require("pg");
+// const { Pool } = require("pg");
 const url = require("url");
+const pgp = require('pg-promise')();
 
 const env = require("env2");
 env("./config.env");
@@ -29,4 +30,6 @@ const options = {
   password
 };
 
-module.exports = new Pool(options);
+const db = pgp(options);
+
+module.exports = db;
