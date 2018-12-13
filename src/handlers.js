@@ -1,11 +1,13 @@
-const { readFile } = require("fs");
-const path = require("path");
-const qs = require("qs");
-const jwt = require("jsonwebtoken");
-const http = require("http");
+const { readFile } = require('fs');
+const path = require('path');
+const qs = require('qs');
+const jwt = require('jsonwebtoken');
+// const http = require('http');
+const bcrypt = require('bcryptjs');
 
-const getData = require("./queries/getdata.js");
-const postData = require("./queries/postdata.js");
+const getData = require('./queries/getdata.js');
+const postNewUser = require('./queries/postdata.js');
+
 
 const serverError = (err, res) => {
 
@@ -40,22 +42,42 @@ const publicHandler = (url, res) => {
   });
 };
 
-const registerPageHandler = (req, res) => {
-  const filePath = path.join(__dirname, "..", "public", "register.html");
-  readFile(filePath, (err, file) => {
-    if (err) return serverError(err, res);
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(file);
-  });
-};
-
-const registerData = (req, res) => {
+const registerUserHandler = (req, res) => {
   let data = "";
   request.on("data", chunk => {
     data += chunk;
   });
-  request.on('end', () => {
+  req.on('end', () => {
     const { name, userName, email, pass } = qs.parse(data);
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) {
+        return err;
+      } else {
+        bcrypt.hash(pass, 10, (err, hashedPassword) => {
+          if (err) {
+            return err;
+          } else {
+            queries.addUserToDatabase(
+              name,
+              userName,
+              email,
+              hashedPassword,
+              (err, result) => {
+                console.log('result: ', result);
+                if (err) {
+                  res.statusCode = 500;
+                  res.end('Error registering');
+                  return;
+                }
+                console.log('hash: ', hash);
+                res.statusCode = 200;
+                res.end('Successfully registered!');
+              }
+            );
+          }
+        });
+      }
+    });
     postNewUser(name, userName, email, pass, (err) => {
       if (err) return serverError(err, res);
       res.writeHead(302, { Location: '/login' });
@@ -64,6 +86,14 @@ const registerData = (req, res) => {
   });
 };
 
+ const registerPageHandler = (req, res) => {
+  const filePath = path.join(__dirname, "..", "public", "register.html");
+  readFile(filePath, (err, file) => {
+    if (err) return serverError(err, res);
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(file);
+  });
+};
 const loginPageHandler = (req, res) => {
   console.log("are we being reached");
   const filePath = path.join(__dirname, "..", "public", "login.html");

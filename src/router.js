@@ -9,9 +9,8 @@ const {
   loginPageHandler,
   loginData,
   registerPageHandler,
-  registerData
+  registerUserHandler
 } = require("./handlers");
-
 
 const router = (req, res) => {
   const reqMethod = req.method;
