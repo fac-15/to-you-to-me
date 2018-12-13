@@ -21,6 +21,8 @@ const getHobby = (hobbyId, cb) => {
   );
 };
 
+// GET USERNAME AND EMAIL TO CHECK FOR REPETITION
+
 // IF WE GET TO PERSONAL DASHBOARDS!
 
 // const getUserDetails = (username, cb) => {
