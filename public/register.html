@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet type="text/css" media="screen" href="public/css/style.css"/>
+    <link href="https://fonts.googleapis.com/css?family="Montserrat|Nanum+Gothic|News+Cycle" rel="stylesheet"/>
+    <link rel="shortcut icon" href="public/images/favicon.ico" />
+  </head>
+
+  <body>
+    <h1>Register your deets:</h1>
+    <form id="form" action="/register" method="post">
+      <input id="full_name"class="input" type="text" name="name" value="" placeholder="Full Name"/>
+      <input id="username" class="input" type="text" name="userName" value="" placeholder="Username"/>
+      <input id="email" class="input" type="email" name="email" value="" placeholder="Email"/>
+      <input id="password" class="input" type="password" name="pass" value="" placeholder="Password"/>
+      <input id="password2" class="input" type="password" name="password2" value="" placeholder="Re-enter your password"/>
+      <button id="register_submit" type="submit">Register</button>
+    </form>
+
+    <script src="public/js/register.js"></script>
+    <script src="public/js/request.js"></script>
+  </body>
+</html>
