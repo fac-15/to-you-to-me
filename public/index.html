@@ -18,22 +18,29 @@
       href="public/css/style.css"
     />
     <link rel="shortcut icon" href="public/images/favicon.ico" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat|EB+Garamond"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|EB+Garamond" rel="stylesheet">
+
+</head>
+<body>
     <header>
       <h1><span id="explore">explore</span> <span id="London">London</span></h1>
 
       <h2>to me, to you.</h2>
+      
+        <div class="hamburger" onclick="hamburgerToggle(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+        </div>
 
-      <div class="hamburger" onclick="hamburgerToggle(this)">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </div>
+
+        <a href='/registerPage'>
+          <button>Sign Up</button>
+        </a>
+        <a href='/loginPage'>
+          <button>Login</button>
+        </a>
+
     </header>
 
     <script src="public/js/style.js"></script>
