@@ -74,7 +74,6 @@ button {
     -webkit-transform: rotate(-45deg) translate(-18px, 12px) ;
     transform: rotate(-45deg) translate(-18px, 12px) ;
 }
-
 .change .bar2 {
     opacity: 0;
 }

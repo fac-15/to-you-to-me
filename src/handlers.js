@@ -33,10 +33,10 @@ const publicHandler = (url, res) => {
       js: "application/javascript",
       ico: "image/x-icon"
     };
-    res.writeHead(200, { 'Content-Type': extensionType[extension] });
-    res.end(file);
-  })
-}
+    response.writeHead(200, { "Content-Type": extensionType[extension] });
+    response.end(file);
+  });
+};
 
 const registerHandler = (req, res) => {
   // console.log("hey, we're about to register!");
@@ -45,12 +45,12 @@ const registerHandler = (req, res) => {
     data += chunk;
   });
   request.on("end", () => {
-    const { username, fname, email, pass } = qs.parse(data);
-
-    postData(username, fname, email, pass, err => {
+    const { name, userName, email, pass } = qs.parse(data);
+    postNewUser(name, userName, email, pass, err => {
       if (err) return serverError(err, response);
       res.writeHead(302, { Location: "/login" });
       res.end();
+
     });
   });
 };
@@ -102,8 +102,8 @@ const hobbyHandler = (req, res) => {
 module.exports = {
   homeHandler,
   publicHandler,
+  registerHandler,
   loginHandler,
   logoutHandler,
-  registerHandler,
   hobbyHandler
 };
