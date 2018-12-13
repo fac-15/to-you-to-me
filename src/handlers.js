@@ -38,8 +38,16 @@ const publicHandler = (url, res) => {
   });
 };
 
-const registerHandler = (req, res) => {
-  // console.log("hey, we're about to register!");
+const registerPageHandler = (req, res) => {
+  const filePath = path.join(__dirname, "..", "public", "register.html");
+  readFile(filePath, (err, file) => {
+    if (err) return serverError(err, res);
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(file);
+  });
+};
+
+const registerData = (req, res) => {
   let data = "";
   request.on("data", chunk => {
     data += chunk;
@@ -54,7 +62,7 @@ const registerHandler = (req, res) => {
   });
 };
 
-const loginHandler = (req, res) => {
+const loginPageHandler = (req, res) => {
   console.log("are we being reached");
   const filePath = path.join(__dirname, "..", "public", "login.html");
   readFile(filePath, (err, file) => {
@@ -113,8 +121,9 @@ const hobbyHandler = (req, res) => {
 module.exports = {
   homeHandler,
   publicHandler,
-  registerHandler,
-  loginHandler,
-  // logoutHandler,
+  registerPageHandler,
+  registerData,
+  loginPageHandler,
+  logoutHandler,
   hobbyHandler
 };

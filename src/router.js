@@ -6,11 +6,13 @@ const {
   publicHandler,
   postUserHandler,
   errorHandler,
-  loginHandler
+  loginPageHandler,
+  loginData,
+  registerPageHandler,
+  registerData
 } = require("./handlers");
 
 const router = (req, res) => {
-  // console.log("this is req,", req, "this is res", res);
   const { url } = req;
   const requestMethod = req.method;
   const requestUrl = req.url;
@@ -20,19 +22,24 @@ const router = (req, res) => {
   if (endpoint === "") {
     homeHandler(res);
   } else if (endpoint === "loginPage") {
-    loginHandler(req, res);
-    // } else if (url === "/logout") {
-    //   // logoutHandler(req, res);
-    // } else if (url === "/register") {
-    // registerHandler(req, res);
-    // } else if (url.includes("/hobby")) {
-    //   hobbyHandler(req, res);
-    // }
-  } else if (endpoint == "login") {
+    loginPageHandler(req, res);
+  } else if (endpoint === "login") {
     loginData(req, res);
+  } else if (endpoint === "registerPage") {
+    registerPageHandler(req, res);
+  } else if (endpoint === "register") {
+    registerData(req, res);
   } else {
     publicHandler(url, res);
   }
 };
+
+// } else if (url === "/logout") {
+//   // logoutHandler(req, res);
+// } else if (url === "/register") {
+// registerHandler(req, res);
+// } else if (url.includes("/hobby")) {
+//   hobbyHandler(req, res);
+// }
 
 module.exports = router;
