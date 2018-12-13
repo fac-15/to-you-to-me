@@ -182,7 +182,7 @@ module.exports = {
   homeHandler,
   publicHandler,
   registerPageHandler,
-  registerData,
+  registerUserHandler,
   loginPageHandler,
   logoutHandler,
   hobbyHandler
