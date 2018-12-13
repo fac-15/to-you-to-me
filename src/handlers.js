@@ -13,7 +13,7 @@ const serverError = (err, res) => {
 }
 
 const homeHandler = (res) => {
-  const filePath = path.join(__dirname, '..', 'public', 'index.js');
+  const filePath = path.join(__dirname, '..', 'public', 'index.html');
   readFile(filePath, (err, file) => {
     if (err) return serverError(err, res);
     res.writeHead(200, { 'Content-Type':'text/html'});
@@ -23,18 +23,18 @@ const homeHandler = (res) => {
 
 const publicHandler = (url, res) => {
   const filepath = path.join(__dirname, "..", url);
-  // console.log('im working')
+  console.log('im working')
   readFile(filepath, (err, file) => {
     if (err) return serverError(err, res);
-    const [extension] = url.split(".")[1];
+    const extension = url.split(".")[1];
     const extensionType = {
       html: "text/html",
       css: "text/css",
       js: "application/javascript",
       ico: "image/x-icon"
     };
-    response.writeHead(200, { "Content-Type": extensionType[extension] });
-    response.end(file);
+    res.writeHead(200, { "Content-Type": extensionType[extension] });
+    res.end(file);
   });
 };
 

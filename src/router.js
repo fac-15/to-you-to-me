@@ -1,6 +1,12 @@
 const bcrypt = require('bcryptjs');
 
-const handler = require("./handlers");
+const {
+  homeHandler,
+  getUsersHandler,
+  publicHandler,
+  postUserHandler,
+  errorHandler
+} = require("./handlers");
 
 // const requestMethod = req.method;
 // const requestUrl = req.url;

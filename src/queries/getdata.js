@@ -38,5 +38,5 @@ const getHobby = (hobbyId, cb) => {
 module.exports = {
   getHobbies,
   getHobby,
-  getUserDetails
+  // getUserDetails
 };
