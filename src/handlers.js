@@ -43,12 +43,17 @@ const publicHandler = (url, res) => {
 };
 
 const registerUserHandler = (req, res) => {
+  console.log("this is the body", req.body)
   let data = "";
   req.on("data", chunk => {
     data += chunk;
   });
   req.on('end', () => {
     const { name, userName, email, pass } = qs.parse(data);
+    // const passedData = qs.parse(data);
+    // console.log("passedData: ", passedData);
+    console.log("name: ", name);
+    console.log("password: ", pass);
     bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         return err;
@@ -57,7 +62,7 @@ const registerUserHandler = (req, res) => {
           if (err) {
             return err;
           } else {
-            queries.addUserToDatabase(
+            postNewUser(
               name,
               userName,
               email,
@@ -69,8 +74,8 @@ const registerUserHandler = (req, res) => {
                   res.end('Error registering');
                   return;
                 }
-                console.log('hash: ', hash);
-                res.statusCode = 200;
+                // console.log('hash: ', hash);
+                res.writeHead(302, { Location: '/loginPage' });
                 res.end('Successfully registered!');
               }
             );
@@ -78,11 +83,11 @@ const registerUserHandler = (req, res) => {
         });
       }
     });
-    postNewUser(name, userName, email, pass, (err) => {
-      if (err) return serverError(err, res);
-      res.writeHead(302, { Location: '/loginPage' });
-      res.end();
-    });
+    // postNewUser(name, userName, email, pass, (err) => {
+    //   if (err) return serverError(err, res);
+    //   res.writeHead(302, { Location: '/loginPage' });
+    //   res.end();
+    // });
   });
 };
 
