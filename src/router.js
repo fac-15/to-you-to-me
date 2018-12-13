@@ -12,7 +12,10 @@ const {
   registerData
 } = require("./handlers");
 
+
 const router = (req, res) => {
+  const reqMethod = req.method;
+  const reqUrl = req.url;
   const { url } = req;
   const requestMethod = req.method;
   const requestUrl = req.url;
@@ -33,13 +36,5 @@ const router = (req, res) => {
     publicHandler(url, res);
   }
 };
-
-// } else if (url === "/logout") {
-//   // logoutHandler(req, res);
-// } else if (url === "/register") {
-// registerHandler(req, res);
-// } else if (url.includes("/hobby")) {
-//   hobbyHandler(req, res);
-// }
 
 module.exports = router;
