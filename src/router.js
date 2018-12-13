@@ -2,8 +2,8 @@ const bcrypt = require('bcryptjs');
 
 const handler = require("./handlers");
 
-const requestMethod = req.method;
-const requestUrl = req.url;
+// const requestMethod = req.method;
+// const requestUrl = req.url;
 
 const router = (req, res) => {
   const { url } = req;
@@ -18,9 +18,9 @@ const router = (req, res) => {
     logoutHandler(req, res)
   } else if (url === '/register') {
     registerHandler(req, res)
-  } else if (url.includes('/hobby') {
+  } else if (url.includes('/hobby')) {
     hobbyHandler(req, res)
-  })
+  }
 }
 
 module.exports = router;
