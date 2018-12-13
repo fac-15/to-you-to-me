@@ -1,19 +1,21 @@
-const { readFile } = require('fs');
-const path = require('path');
-const qs = require('qs');
-const jwt = require('jsonwebtoken');
-const http = require('http');
+const { readFile } = require("fs");
+const path = require("path");
+const qs = require("qs");
+const jwt = require("jsonwebtoken");
+const http = require("http");
 
-const getData = require('./queries/getdata.js');
-const postData = require('./queries/postdata.js');
+const getData = require("./queries/getdata.js");
+const postData = require("./queries/postdata.js");
 
 const serverError = (err, res) => {
+
   res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('<h1>Sorry there was a problem loading..</h1>');
+
 };
 
-const homeHandler = (res) => {
-  const filePath = path.join(__dirname, '..', 'public', 'index.html');
+const homeHandler = res => {
+  const filePath = path.join(__dirname, "..", "public", "index.html");
   readFile(filePath, (err, file) => {
     if (err) return serverError(err, res);
     res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -38,22 +40,66 @@ const publicHandler = (url, res) => {
   });
 };
 
-const registerHandler = (req, res) => {
-  // console.log("hey, we're about to register!");
-  let data = '';
-  request.on('data', (chunk) => {
+const registerPageHandler = (req, res) => {
+  const filePath = path.join(__dirname, "..", "public", "register.html");
+  readFile(filePath, (err, file) => {
+    if (err) return serverError(err, res);
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(file);
+  });
+};
+
+const registerData = (req, res) => {
+  let data = "";
+  request.on("data", chunk => {
     data += chunk;
   });
   request.on('end', () => {
     const { name, userName, email, pass } = qs.parse(data);
     postNewUser(name, userName, email, pass, (err) => {
-      if (err) return serverError(err, response);
+      if (err) return serverError(err, res);
       res.writeHead(302, { Location: '/login' });
       res.end();
     });
   });
 };
 
+const loginPageHandler = (req, res) => {
+  console.log("are we being reached");
+  const filePath = path.join(__dirname, "..", "public", "login.html");
+  readFile(filePath, (err, file) => {
+    if (err) return serverError(err, res);
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(file);
+  });
+};
+// let postData = "";
+// request.on("data", chunk => {
+//   postData += chunk;
+// });
+// request.on("end", () => {
+//   const { username, pass } = qs.parse(postData);
+//
+//   postData(username, pass, err => {
+//     if (err) {
+//       return serverError(err, res);
+//     } else {
+//       jwt.sign(
+//         { logged_in: true },
+//         process.env.JWT_SECRET,
+//         {},
+//         (err, token) => {
+//           res.writeHead(302, {
+//             Location: "/",
+//             "Set-Cookie": `data=${token}; HttpOnly, Max-Age=9000`
+//           });
+//           res.end();
+//         }
+//       );
+//     }
+//   });
+// });
+// };
 const loginHandler = (method, url) => {
   let postData = '';
   request.on('data', (chunk) => {
@@ -95,18 +141,19 @@ const logoutHandler = (method, url) => {
 const hobbyHandler = (req, res) => {
   // console.log("we're getting HOBBIES!");
   getData((err, res) => {
-    if (err) return serverError(err, response);
+    if (err) return serverError(err, res);
     let data = JSON.stringify(res);
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.end(data);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(data);
   });
 };
 
 module.exports = {
   homeHandler,
   publicHandler,
-  registerHandler,
-  loginHandler,
+  registerPageHandler,
+  registerData,
+  loginPageHandler,
   logoutHandler,
   hobbyHandler
 };
