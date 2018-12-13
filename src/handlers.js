@@ -8,93 +8,96 @@ const getData = require('./queries/getdata.js');
 const postData = require('./queries/postdata.js');
 
 const serverError = (err, res) => {
-  res.writeHead(500, {'Content-Type':'text/html'});
+  res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('<h1>Sorry there was a problem loading..</h1>');
-}
+};
 
 const homeHandler = (res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
   readFile(filePath, (err, file) => {
     if (err) return serverError(err, res);
-    res.writeHead(200, { 'Content-Type':'text/html'});
+    res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(file);
-  })
-}
+  });
+};
 
 const publicHandler = (url, res) => {
-  const filepath = path.join(__dirname, "..", url);
-  console.log('im working')
+  const filepath = path.join(__dirname, '..', url);
+  console.log('im working');
   readFile(filepath, (err, file) => {
     if (err) return serverError(err, res);
-    const extension = url.split(".")[1];
+    const extension = url.split('.')[1];
     const extensionType = {
-      html: "text/html",
-      css: "text/css",
-      js: "application/javascript",
-      ico: "image/x-icon"
+      html: 'text/html',
+      css: 'text/css',
+      js: 'application/javascript',
+      ico: 'image/x-icon'
     };
-    res.writeHead(200, { "Content-Type": extensionType[extension] });
+    res.writeHead(200, { 'Content-Type': extensionType[extension] });
     res.end(file);
   });
 };
 
 const registerHandler = (req, res) => {
   // console.log("hey, we're about to register!");
-  let data = "";
-  request.on("data", chunk => {
+  let data = '';
+  request.on('data', (chunk) => {
     data += chunk;
   });
-  request.on("end", () => {
+  request.on('end', () => {
     const { name, userName, email, pass } = qs.parse(data);
-    postNewUser(name, userName, email, pass, err => {
+    postNewUser(name, userName, email, pass, (err) => {
       if (err) return serverError(err, response);
-      res.writeHead(302, { Location: "/login" });
+      res.writeHead(302, { Location: '/login' });
       res.end();
-
     });
   });
 };
 
-const loginHandler = (req, res) => {
-  let postData = "";
-  request.on("data", chunk => {
+const loginHandler = (method, url) => {
+  let postData = '';
+  request.on('data', (chunk) => {
     postData += chunk;
   });
-  request.on("end", () => {
+  request.on('end', () => {
     const { username, pass } = qs.parse(postData);
 
-    postData(username, pass, err => {
+    postData(username, pass, (err) => {
       if (err) {
         return serverError(err, response);
       } else {
-        jwt.sign({logged_in: true}, process.env.JWT_SECRET, {}, (err, token) => {
-          res.writeHead(302,
-            { Location: "/",
-            'Set-Cookie': `data=${token}; HttpOnly, Max-Age=9000`
-          });
-          res.end();
-        })
+        jwt.sign(
+          { logged_in: true },
+          process.env.JWT_SECRET,
+          {},
+          (err, token) => {
+            res.writeHead(302, {
+              Location: '/',
+              'Set-Cookie': `data=${token}; HttpOnly, Max-Age=9000`
+            });
+            res.end();
+          }
+        );
       }
     });
   });
-}
+};
 
-const logoutHandler = (req, res) => {
-  res.writeHead(302,
-    {
-      'Content-Type': 'text/html',
-       Location: '/',
-      'Set-Cookie': 'data=0; HttpOnly; Max-Age=0'
-    });
-    res.end();
-  };
+const logoutHandler = (method, url) => {
+  res.writeHead(302, {
+    'Content-Type': 'text/html',
+    Location: '/',
+    'Set-Cookie': 'data=0; HttpOnly; Max-Age=0'
+  });
+  res.end();
+};
 
 const hobbyHandler = (req, res) => {
   // console.log("we're getting HOBBIES!");
   getData((err, res) => {
     if (err) return serverError(err, response);
     let data = JSON.stringify(res);
-    response.writeHead(200, { "Content-Type": "application/json" });
+    response.writeHead(200, { 'Content-Type': 'application/json' });
     response.end(data);
   });
 };

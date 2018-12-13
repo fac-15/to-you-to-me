@@ -6,27 +6,26 @@ const {
   publicHandler,
   postUserHandler,
   errorHandler
-} = require("./handlers");
-
-// const requestMethod = req.method;
-// const requestUrl = req.url;
+} = require('./handlers');
 
 const router = (req, res) => {
+  const reqMethod = req.method;
+  const reqUrl = req.url;
   const { url } = req;
 
   if (url === '/') {
     homeHandler(res);
-  } else if(url.includes('public')){
-    publicHandler(url, res)
+  } else if (url.includes('public')) {
+    publicHandler(url, res);
   } else if (url === '/login') {
-    loginHandler(req, res);
+    loginHandler(reqMethod, reqUrl);
   } else if (url === '/logout') {
-    logoutHandler(req, res)
+    logoutHandler(reqMethod, reqUrl);
   } else if (url === '/register') {
-    registerHandler(req, res)
+    registerHandler(req, res);
   } else if (url.includes('/hobby')) {
-    hobbyHandler(req, res)
+    hobbyHandler(req, res);
   }
-}
+};
 
 module.exports = router;
