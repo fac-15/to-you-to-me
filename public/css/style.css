@@ -1,0 +1,22 @@
+/* Fonts to use:
+TITLE: font-family: 'Secular One', sans-serif;
+BODY TEXT: {  font-family: 'Nanum Gothic', sans-serif;
+             font-family: 'News Cycle', sans-serif;
+           }
+*/
+:root {
+  --white-color: #fcffff;
+  --dark-blue-color: #3D839C;
+  --bright-blue-color: #78C8D3;
+  --feature-orange: #EAC564;
+  --black-color: #141312;
+}
+
+body {
+  background-color: var(--white-color);
+  font-family: 'News Cycle', sans-serif;
+}
+
+h1 {
+  font-family: 'Secular One', sans-serif;
+}
