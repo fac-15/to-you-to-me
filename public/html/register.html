@@ -6,10 +6,21 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic|News+Cycle|Secular+One" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Monserrat|Nanum+Gothic|News+Cycle|Secular+One" rel="stylesheet">
+    <link rel="shortcut icon" href="../images/favicon.ico" />
 </head>
+  
 <body>
+    <h1>Register your deets:</h1>
+     <form id="form" action="/register" method="post">
+        <input id="full_name" class="input" type="text" name="full_name" value="" placeholder="Full Name">
+        <input id="username" class="input" type="text" name="username" value="" placeholder="Username">
+        <input id="email" class="input" type="email" name="email" value="" placeholder="Email">
+        <input id="password" class="input" type="password" name="password" value="" placeholder="Password">
+        <input id="password2" class="input" type="password" name="password2" value="" placeholder="Re-enter your password">
+        <button id="register_submit" type="submit">Register</button>
+     </form>
+
 
     <script src="../js/register.js"></script>
     <script src="../js/request.js"></script>
