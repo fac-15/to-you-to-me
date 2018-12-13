@@ -1,32 +1,38 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 const {
   homeHandler,
   getUsersHandler,
   publicHandler,
   postUserHandler,
-  errorHandler
+  errorHandler,
+  loginHandler
 } = require("./handlers");
 
-// const requestMethod = req.method;
-// const requestUrl = req.url;
-
 const router = (req, res) => {
+  // console.log("this is req,", req, "this is res", res);
   const { url } = req;
+  const requestMethod = req.method;
+  const requestUrl = req.url;
+  console.log("meth", requestMethod, "url", requestUrl);
+  const endpoint = url.split("/")[1];
 
-  if (url === '/') {
+  if (endpoint === "") {
     homeHandler(res);
-  } else if(url.includes('public')){
-    publicHandler(url, res)
-  } else if (url === '/login') {
+  } else if (endpoint === "loginPage") {
     loginHandler(req, res);
-  } else if (url === '/logout') {
-    logoutHandler(req, res)
-  } else if (url === '/register') {
-    registerHandler(req, res)
-  } else if (url.includes('/hobby')) {
-    hobbyHandler(req, res)
+    // } else if (url === "/logout") {
+    //   // logoutHandler(req, res);
+    // } else if (url === "/register") {
+    // registerHandler(req, res);
+    // } else if (url.includes("/hobby")) {
+    //   hobbyHandler(req, res);
+    // }
+  } else if (endpoint == "login") {
+    loginData(req, res);
+  } else {
+    publicHandler(url, res);
   }
-}
+};
 
 module.exports = router;
