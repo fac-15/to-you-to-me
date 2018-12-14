@@ -14,8 +14,8 @@ const {
 } = require('./handlers');
 
 const router = (req, res) => {
-  const reqMethod = req.method;
-  const reqUrl = req.url;
+  // const reqMethod = req.method;
+  // const reqUrl = req.url;
   const { url } = req;
 
   // console.log("method: ", reqMethod, "url: ", reqUrl);
@@ -29,7 +29,7 @@ const router = (req, res) => {
   } else if (endpoint === 'loginPage') {
     loginPageHandler(req, res);
   } else if (endpoint === 'login') {
-    loginData(reqMethod, reqUrl);
+    loginData(req, res);
   } else if (endpoint === 'registerPage') {
     registerPageHandler(req, res);
   } else if (endpoint === 'register') {
