@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 const {
   homeHandler,
@@ -9,31 +9,34 @@ const {
   hobbiesHandler,
   loginPageHandler,
   loginData,
+  logoutHandler,
   registerPageHandler,
   registerUserHandler
-} = require('./handlers');
+} = require("./handlers");
 
 const router = (req, res) => {
-  // const reqMethod = req.method;
-  // const reqUrl = req.url;
+  // console.log("what is the cookie status", req.headers.cookie);
+
   const { url } = req;
 
   // console.log("method: ", reqMethod, "url: ", reqUrl);
-  const endpoint = url.split('/')[1];
+  const endpoint = url.split("/")[1];
 
-  if (endpoint === '') {
-    console.log('router asking for hobbies handler...');
-    homeHandler(res);
-  } else if (endpoint === 'hobbies') {
+  if (endpoint === "" || endpoint === "home") {
+    console.log("router asking for hobbies handler...");
+    homeHandler(req, res);
+  } else if (endpoint === "hobbies") {
     hobbiesHandler(res);
-  } else if (endpoint === 'loginPage') {
+  } else if (endpoint === "loginPage") {
     loginPageHandler(req, res);
-  } else if (endpoint === 'login') {
+  } else if (endpoint === "login") {
     loginData(req, res);
-  } else if (endpoint === 'registerPage') {
+  } else if (endpoint === "registerPage") {
     registerPageHandler(req, res);
-  } else if (endpoint === 'register') {
+  } else if (endpoint === "register") {
     registerUserHandler(req, res);
+  } else if (endpoint === "logout") {
+    logoutHandler(req, res);
   } else {
     publicHandler(url, res);
   }

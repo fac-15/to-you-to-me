@@ -3,26 +3,40 @@ const path = require("path");
 const qs = require("qs");
 const jwt = require("jsonwebtoken");
 // const http = require('http');
-const bcrypt = require('bcryptjs');
-const cookie = require('cookie');
+const bcrypt = require("bcryptjs");
+const cookie = require("cookie");
 // const { sign, verify } = require("jsonwebtoken");
-const getData = require('./queries/getdata.js');
+const getData = require("./queries/getdata.js");
 
-const { getHobbies } = require('./queries/getdata.js');
-const postNewUser = require('./queries/postdata.js');
+const { getHobbies } = require("./queries/getdata.js");
+const postNewUser = require("./queries/postdata.js");
 
 const serverError = (err, res) => {
-  res.writeHead(500, { 'Content-Type': 'text/html' });
-  res.end('<h1>Sorry there was a problem loading..</h1>');
+  res.writeHead(500, { "Content-Type": "text/html" });
+  res.end("<h1>Sorry there was a problem loading..</h1>");
 };
 
-const homeHandler = (res) => {
-  const filePath = path.join(__dirname, '..', 'public', 'index.html');
-  readFile(filePath, (err, file) => {
-    if (err) return serverError(err, res);
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(file);
-  });
+const homeHandler = (req, res) => {
+  console.log("show me the cookie", req.headers.cookie);
+  if (req.headers.cookie && req.headers.cookie.match(/logged_in=true/)) {
+    const filePath = path.join(__dirname, "..", "public", "home.html");
+    readFile(filePath, (err, file) => {
+      if (err) return serverError(err, res);
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(file);
+    });
+  } else {
+    const filePath = path.join(__dirname, "..", "public", "index.html");
+    readFile(filePath, (err, file) => {
+      if (err) return serverError(err, res);
+      res.writeHead(200, {
+        "Content-Type": "text/html",
+        "Set-Cookie": "logged_in=false; HttpOnly; Max-Age=0"
+      });
+
+      res.end(file);
+    });
+  }
 };
 
 const publicHandler = (url, res) => {
@@ -43,17 +57,17 @@ const publicHandler = (url, res) => {
 };
 
 const registerUserHandler = (req, res) => {
-  console.log('this is the body', req.body);
-  let data = '';
-  req.on('data', (chunk) => {
+  console.log("this is the body", req.body);
+  let data = "";
+  req.on("data", chunk => {
     data += chunk;
   });
   req.on("end", () => {
     const { name, userName, email, pass } = qs.parse(data);
     // const passedData = qs.parse(data);
     // console.log("passedData: ", passedData);
-    console.log('name: ', name);
-    console.log('password: ', pass);
+    console.log("name: ", name);
+    console.log("password: ", pass);
     bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         return err;
@@ -92,22 +106,26 @@ const registerUserHandler = (req, res) => {
 };
 
 const registerPageHandler = (req, res) => {
-  const filePath = path.join(__dirname, '..', 'public', 'register.html');
+  const filePath = path.join(__dirname, "..", "public", "register.html");
   readFile(filePath, (err, file) => {
     if (err) return serverError(err, res);
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.writeHead(200, { "Content-Type": "text/html" });
     res.end(file);
   });
 };
+
+//login page loading
 const loginPageHandler = (req, res) => {
-  console.log('are we being reached');
-  const filePath = path.join(__dirname, '..', 'public', 'login.html');
+  console.log("are we being reached");
+  const filePath = path.join(__dirname, "..", "public", "login.html");
   readFile(filePath, (err, file) => {
     if (err) return serverError(err, res);
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.writeHead(200, { "Content-Type": "text/html" });
     res.end(file);
   });
 };
+
+// check login data
 
 const loginData = (req, res) => {
   let body = "";
@@ -138,6 +156,7 @@ const loginData = (req, res) => {
             res.end("Email or password doesn't exist");
             return;
           } else {
+            res.setHeader("Set-Cookie", "logged_in=true");
             // const cookie = sign(result[0].id, secret);
             res.writeHead(302, {
               Location: "/"
@@ -151,22 +170,22 @@ const loginData = (req, res) => {
   });
 };
 
-const logoutHandler = (method, url) => {
+const logoutHandler = (req, res) => {
   res.writeHead(302, {
     "Content-Type": "text/html",
     Location: "/",
-    "Set-Cookie": "data=0; HttpOnly; Max-Age=0"
+    "Set-Cookie": "logged_in=false; HttpOnly; Max-Age=0"
   });
   res.end();
 };
 
-const hobbiesHandler = (res) => {
+const hobbiesHandler = res => {
   console.log("we're getting HOBBIES in the hobbieshandler");
   getHobbies((err, response) => {
-    console.log('we are in getHobbies in hobbieshandler');
+    console.log("we are in getHobbies in hobbieshandler");
     if (err) return serverError(err, res);
     let data = JSON.stringify(response);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(200, { "Content-Type": "application/json" });
     res.end(data);
   });
 };
