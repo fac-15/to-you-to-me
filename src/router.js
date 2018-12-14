@@ -11,7 +11,8 @@ const {
   loginData,
   logoutHandler,
   registerPageHandler,
-  registerUserHandler
+  registerUserHandler,
+  addHobbies
 } = require("./handlers");
 
 const router = (req, res) => {
@@ -25,6 +26,8 @@ const router = (req, res) => {
   if (endpoint === "" || endpoint === "home") {
     console.log("router asking for hobbies handler...");
     homeHandler(req, res);
+  } else if (endpoint === "addHobbies") {
+    addHobbies(req, res);
   } else if (endpoint === "hobbies") {
     hobbiesHandler(res);
   } else if (endpoint === "loginPage") {
