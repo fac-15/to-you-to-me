@@ -5,7 +5,7 @@ const getHobbies = (cb) => {
     if (err) {
       return cb(err);
     }
-    cb(null, res.rows);
+    return cb(null, res.rows);
   });
 };
 
@@ -39,6 +39,6 @@ const getHobby = (hobbyId, cb) => {
 
 module.exports = {
   getHobbies,
-  getHobby,
+  getHobby
   // getUserDetails
 };
