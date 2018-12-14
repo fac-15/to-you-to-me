@@ -7,9 +7,10 @@ const bcrypt = require("bcryptjs");
 const cookie = require("cookie");
 // const { sign, verify } = require("jsonwebtoken");
 const getData = require("./queries/getdata.js");
+const postData = require("./queries/postdata.js");
 
 const { getHobbies } = require("./queries/getdata.js");
-const postNewUser = require("./queries/postdata.js");
+// const postNewUser = require("./queries/postdata.js");
 
 const serverError = (err, res) => {
   res.writeHead(500, { "Content-Type": "text/html" });
@@ -76,7 +77,7 @@ const registerUserHandler = (req, res) => {
           if (err) {
             return err;
           } else {
-            postNewUser(
+            postData.postNewUser(
               name,
               userName,
               email,
@@ -190,18 +191,28 @@ const hobbiesHandler = res => {
   });
 };
 
-const addHobbie = (req, res) => {
+const hobbyPageHandler = (req, res) => {
+  // console.log("are we being reached: ", res);
+  const filePath = path.join(__dirname, "..", "public", "hobby.html");
+  readFile(filePath, (err, file) => {
+    if (err) return serverError(err, res);
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(file);
+  });
+};
+
+const addHobby = (req, res) => {
   console.log("IM WORKING addHobbie");
   let data = "";
-  request.on("data", chunk => {
+  req.on("data", chunk => {
     data += chunk;
   });
-  request.on("end", () => {
+  req.on("end", () => {
     const { hname, location, type, id, comments } = qs.parse(data);
-    postNewHobbie(hname, location, type, id, comments => {
+    postData.postNewHobbie(hname, location, type, id, comments => {
       if (err) return serverError(err, response);
-      response.writeHead(302, { Location: "home.html" });
-      response.end();
+      res.writeHead(302, { Location: "/" });
+      res.end();
     });
   });
 };
@@ -215,5 +226,6 @@ module.exports = {
   loginData,
   logoutHandler,
   hobbiesHandler,
-  addHobbie
+  hobbyPageHandler,
+  addHobby
 };
