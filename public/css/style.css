@@ -1,9 +1,4 @@
-/* Fonts to use:
-TITLE: font-family: 'Secular One', sans-serif;
-BODY TEXT: {  font-family: 'Nanum Gothic', sans-serif;
-             font-family: 'News Cycle', sans-serif;
-           }
-*/
+
 :root {
   --white-color: #fcffff;
   --dark-blue-color: #3d839c;
@@ -13,26 +8,30 @@ BODY TEXT: {  font-family: 'Nanum Gothic', sans-serif;
 }
 
 body {
-  height: 500vh;
+
   width: 80vw;
-  background-image: linear-gradient(
-    to bottom right,
-    var(--dark-blue-color),
-    var(--bright-blue-color)
-  );
+  background-image: linear-gradient(to bottom right, var(--dark-blue-color), var(--bright-blue-color));
   padding: 3vw;
   color: var(--white-color);
-  margin: 20%;
+
 }
 
 h1 * {
   font-size: 6em;
   font-family: "Montserrat", sans-serif;
+
 }
+
+h1 {
+  margin-bottom: 0px;
+}
+
+
 
 h2 {
   font-family: "EB Garamond", serif;
   font-size: 2em;
+  margin-top: 0px;
 }
 
 form * {
@@ -45,8 +44,10 @@ button {
   margin-top: 1em;
   background-color: var(--feature-orange);
   color: var(--white-color);
-  width: 25em;
-  height: 7em;
+  width: 10rem;
+  height: 3rem;
+  /* text-transform: uppercase; */
+  font-family: "Montserrat", sans-serif;
   /* font-size: 30px; */
 }
 .input {
@@ -55,6 +56,9 @@ button {
   padding: 10px;
   width: 300px;
   margin: 10px 0 10px 0;
+}
+.wrapper {
+  margin: 6%;
 }
 #form {
   width: 60%;
@@ -90,6 +94,23 @@ button {
 .change .bar3 {
   -webkit-transform: rotate(45deg) translate(-16px, -16px);
   transform: rotate(45deg) translate(-16px, -16px);
+}
+
+#hobbies {
+  font-family: "EB Garamond", serif;
+}
+#hobbies .hobbie_item  {
+  border: 5px solid var(--dark-blue-color);
+  width: 190px;
+  text-align: center;
+  border-radius: 9px;
+  display: inline-block;
+  height: 110px;
+  margin: 10px;
+  background-color: var(--feature-orange);
+  color: var(--black-color);
+  padding: 20px;
+  font-size: 1.5rem;
 }
 
 .warning {

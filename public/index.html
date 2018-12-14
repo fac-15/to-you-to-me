@@ -5,42 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>To you, to me</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen"
-      href="public/css/reset.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen"
-      href="public/css/style.css"
-    />
+    <link rel="stylesheet" type="text/css" media="screen" href="public/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="public/css/style.css"/>
     <link rel="shortcut icon" href="public/images/favicon.ico" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat|EB+Garamond"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|EB+Garamond" rel="stylesheet"/>
   </head>
   <body>
-    <header>
-      <nav class="hamburger" onclick="hamburgerToggle(this)">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </nav>
-      <h1><span id="explore">explore</span> <span id="London">London</span></h1>
+    <div class="wrapper">
+      <header>
+        <nav class="hamburger" onclick="hamburgerToggle(this)">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </nav>
+        <h1>
+          <span class="explore">explore</span> <span class="London">London</span>
+        </h1>
+        <h2>to you, to me.</h2>
+      </header>
+      <main>
+        <h2>Login to see our hobbies...</h2>
+        <ul id="hobbies"></ul>
+        <section id="user-buttons">
+          <a href="/hobby"> <button>Add New Hooby</button></a>
+        </section>
+      </main>
+    </div>
 
-      <h2>to me, to you.</h2>
-    </header>
-    <main>
-      <section id="hobbies"></section>
-      <section id="user-buttons">
-        <a href="/registerPage"> <button>Sign Up</button> </a>
-        <a href="/loginPage"> <button>Login</button> </a>
-      </section>
-    </main>
     <script src="public/js/request.js"></script>
     <script src="public/js/dom.js"></script>
     <script src="public/js/style.js"></script>
