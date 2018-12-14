@@ -1,7 +1,7 @@
-const dbConnection = require('../database/db_connection');
+const dbConnection = require("../database/db_connection");
 
-const getHobbies = (cb) => {
-  dbConnection.query('SELECT * FROM hobbies', (err, res) => {
+const getHobbies = cb => {
+  dbConnection.query("SELECT * FROM hobbies", (err, res) => {
     if (err) {
       return cb(err);
     }
@@ -12,6 +12,18 @@ const getHobbies = (cb) => {
 const getHobby = (hobbyId, cb) => {
   dbConnection.query(
     `SELECT * FROM hobbies WHERE id = ${hobbyId}`,
+    (err, res) => {
+      if (err) {
+        return cb(err);
+      }
+      cb(null, res.rows);
+    }
+  );
+};
+
+const getUserDetails = (email, cb) => {
+  dbConnection.query(
+    `SELECT * FROM users WHERE email = '${email}'`,
     (err, res) => {
       if (err) {
         return cb(err);
@@ -39,6 +51,6 @@ const getHobby = (hobbyId, cb) => {
 
 module.exports = {
   getHobbies,
-  getHobby
-  // getUserDetails
+  getHobby,
+  getUserDetails
 };

@@ -1,7 +1,7 @@
-const { readFile } = require('fs');
-const path = require('path');
-const qs = require('qs');
-const jwt = require('jsonwebtoken');
+const { readFile } = require("fs");
+const path = require("path");
+const qs = require("qs");
+const jwt = require("jsonwebtoken");
 // const http = require('http');
 const bcrypt = require('bcryptjs');
 
@@ -17,24 +17,24 @@ const homeHandler = (res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
   readFile(filePath, (err, file) => {
     if (err) return serverError(err, res);
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.writeHead(200, { "Content-Type": "text/html" });
     res.end(file);
   });
 };
 
 const publicHandler = (url, res) => {
-  const filepath = path.join(__dirname, '..', url);
-  console.log('im working');
+  const filepath = path.join(__dirname, "..", url);
+  console.log("im working");
   readFile(filepath, (err, file) => {
     if (err) return serverError(err, res);
-    const extension = url.split('.')[1];
+    const extension = url.split(".")[1];
     const extensionType = {
-      html: 'text/html',
-      css: 'text/css',
-      js: 'application/javascript',
-      ico: 'image/x-icon'
+      html: "text/html",
+      css: "text/css",
+      js: "application/javascript",
+      ico: "image/x-icon"
     };
-    res.writeHead(200, { 'Content-Type': extensionType[extension] });
+    res.writeHead(200, { "Content-Type": extensionType[extension] });
     res.end(file);
   });
 };
@@ -45,7 +45,7 @@ const registerUserHandler = (req, res) => {
   req.on('data', (chunk) => {
     data += chunk;
   });
-  req.on('end', () => {
+  req.on("end", () => {
     const { name, userName, email, pass } = qs.parse(data);
     // const passedData = qs.parse(data);
     // console.log("passedData: ", passedData);
@@ -65,15 +65,15 @@ const registerUserHandler = (req, res) => {
               email,
               hashedPassword,
               (err, result) => {
-                console.log('result: ', result);
+                console.log("result: ", result);
                 if (err) {
                   res.statusCode = 500;
-                  res.end('Error registering');
+                  res.end("Error registering");
                   return;
                 }
                 // console.log('hash: ', hash);
-                res.writeHead(302, { Location: '/loginPage' });
-                res.end('Successfully registered!');
+                res.writeHead(302, { Location: "/loginPage" });
+                res.end("Successfully registered!");
               }
             );
           }
@@ -105,57 +105,44 @@ const loginPageHandler = (req, res) => {
     res.end(file);
   });
 };
-// let postData = "";
-// request.on("data", chunk => {
-//   postData += chunk;
-// });
-// request.on("end", () => {
-//   const { username, pass } = qs.parse(postData);
-//
-//   postData(username, pass, err => {
-//     if (err) {
-//       return serverError(err, res);
-//     } else {
-//       jwt.sign(
-//         { logged_in: true },
-//         process.env.JWT_SECRET,
-//         {},
-//         (err, token) => {
-//           res.writeHead(302, {
-//             Location: "/",
-//             "Set-Cookie": `data=${token}; HttpOnly, Max-Age=9000`
-//           });
-//           res.end();
-//         }
-//       );
-//     }
-//   });
-// });
-// };
-const loginHandler = (method, url) => {
-  let postData = '';
-  request.on('data', (chunk) => {
-    postData += chunk;
-  });
-  request.on('end', () => {
-    const { username, pass } = qs.parse(postData);
 
-    postData(username, pass, (err) => {
+const loginData = (req, res) => {
+  let body = "";
+  req.on("data", data => {
+    body += data;
+    console.log(body);
+  });
+  req.on("end", () => {
+    const obj = qs.parse(body);
+    console.log(obj);
+    const { email, password } = obj;
+    console.log(email, password);
+
+    getData.getUserDetails(email, (err, result) => {
       if (err) {
-        return serverError(err, response);
+        console.log(err);
       } else {
-        jwt.sign(
-          { logged_in: true },
-          process.env.JWT_SECRET,
-          {},
-          (err, token) => {
-            res.writeHead(302, {
-              Location: '/',
-              'Set-Cookie': `data=${token}; HttpOnly, Max-Age=9000`
-            });
-            res.end();
+        console.log("this is what were getting", result);
+        bcrypt.compare(password, result[0].password, (err, passwordsMatch) => {
+          console.log(password);
+          if (err) {
+            res.statusCode = 500;
+            res.end("error logging in");
+            return;
           }
-        );
+          if (!passwordsMatch) {
+            res.statusCode = 403;
+            res.end("Email or password doesn't exist");
+            return;
+          } else {
+            const cookie = sign(result[0].id, secret);
+            res.writeHead(302, {
+              Location: "http://localhost:5000/public/form.html",
+              "Set-Cookie": `jwt=${cookie}; HttpOnly`
+            });
+            res.end("logged in!!");
+          }
+        });
       }
     });
   });
@@ -163,9 +150,9 @@ const loginHandler = (method, url) => {
 
 const logoutHandler = (method, url) => {
   res.writeHead(302, {
-    'Content-Type': 'text/html',
-    Location: '/',
-    'Set-Cookie': 'data=0; HttpOnly; Max-Age=0'
+    "Content-Type": "text/html",
+    Location: "/",
+    "Set-Cookie": "data=0; HttpOnly; Max-Age=0"
   });
   res.end();
 };
@@ -187,6 +174,7 @@ module.exports = {
   registerPageHandler,
   registerUserHandler,
   loginPageHandler,
+  loginData,
   logoutHandler,
   hobbiesHandler
 };
