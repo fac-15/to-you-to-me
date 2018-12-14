@@ -6,7 +6,12 @@
   --feature-orange: #eac564;
   --black-color: #141312;
 }
-
+html {
+  min-height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 body {
 
   width: 80vw;

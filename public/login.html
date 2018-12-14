@@ -12,15 +12,18 @@
 
 </head>
 <body>
+    <div class="wrapper">
+      <header>
+        <h1>Login</h1>
+      </header>
+    
+      <form id="form" action="/login" method="post">
+          <input id="email" class="input" type="email" name="email" value="" placeholder="Email">
+          <input id="password" class="input" type="password" name="password" value="" placeholder="Password">
+          <button id="login_submit" type="submit">Login</button>
+      </form>
 
-    <h1>Login</h1>
-    <form id="form" action="/login" method="post">
-        <input id="email" class="input" type="email" name="email" value="" placeholder="Email">
-        <input id="password" class="input" type="password" name="password" value="" placeholder="Password">
-        <button id="login_submit" type="submit">Login</button>
-    </form>
-
-
+    </div>
     <script src="public/js/login.js"></script>
     <script src="public/js/request.js"></script>
 </body>
