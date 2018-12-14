@@ -190,6 +190,22 @@ const hobbiesHandler = res => {
   });
 };
 
+const addHobbie = (req, res) => {
+  console.log("IM WORKING addHobbie");
+  let data = "";
+  request.on("data", chunk => {
+    data += chunk;
+  });
+  request.on("end", () => {
+    const { hname, location, type, id, comments } = qs.parse(data);
+    postNewHobbie(hname, location, type, id, comments => {
+      if (err) return serverError(err, response);
+      response.writeHead(302, { Location: "home.html" });
+      response.end();
+    });
+  });
+};
+
 module.exports = {
   homeHandler,
   publicHandler,
@@ -198,5 +214,6 @@ module.exports = {
   loginPageHandler,
   loginData,
   logoutHandler,
-  hobbiesHandler
+  hobbiesHandler,
+  addHobbie
 };
