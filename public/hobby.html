@@ -1,23 +1,52 @@
 <!DOCTYPE html>
-<html lang='en'>
-<head>
+<html lang="en">
+  <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat|Nanum+Gothic|News+Cycle" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>To you, to me</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="public/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="public/css/style.css"/>
+    <link rel="shortcut icon" href="public/images/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|EB+Garamond" rel="stylesheet"/>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <nav class="hamburger" onclick="hamburgerToggle(this)">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </nav>
 
-</head>
-<body>
+        <h1>Whats your hobby?</h1>
+      </header>
+      <main>
+        <h2>Add your details below</h2>
+        <form id="form" action="/create-user" method="post">
+        <form>
+          <div class="tab" id="section-1">Hobby Name:
+            <input  id="hname" type="text" name="hname" value="" placeholder="Hobby Name">
+          </div>
+          <div class="tab" id="section-2">Location
+            <input id="location" type="text" name="location" value="" placeholder="Location">
+          </div>
 
-    <h1 id="hobby-title"></h1>
-    <img id="hobby-img" src="" alt="">
-    <p id="hobby-description"></p>
-
-
-    <script src="../js/hobby.js"></script>
-    <script src="../js/request.js"></script>
-</body>
+          <div class="tab" id="section-3">Type of hobby
+            <select id="type-select" name="type"></select>
+          </div>
+          <div class="tab" id="section-3">Comments
+            <textarea id="comment" type="text" name="comments" value="" placeholder="Organisation"></textarea>
+          </div>
+          <div id="user-buttons">
+            <a href="/"> <button>Submit</button></a>
+          </div>
+          </div>
+        </form>
+      </main>
+    </div>
+    <script src="public/js/request.js"></script>
+    <script src="public/js/dom.js"></script>
+    <script src="public/js/style.js"></script>
+  </body>
 </html>
