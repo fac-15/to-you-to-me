@@ -4,6 +4,9 @@ const qs = require("qs");
 const jwt = require("jsonwebtoken");
 // const http = require('http');
 const bcrypt = require('bcryptjs');
+const cookie = require('cookie');
+// const { sign, verify } = require("jsonwebtoken");
+const getData = require('./queries/getdata.js');
 
 const { getHobbies } = require('./queries/getdata.js');
 const postNewUser = require('./queries/postdata.js');
@@ -135,10 +138,10 @@ const loginData = (req, res) => {
             res.end("Email or password doesn't exist");
             return;
           } else {
-            const cookie = sign(result[0].id, secret);
+            // const cookie = sign(result[0].id, secret);
             res.writeHead(302, {
-              Location: "http://localhost:5000/public/form.html",
-              "Set-Cookie": `jwt=${cookie}; HttpOnly`
+              Location: "/"
+              // "Set-Cookie": `jwt=${cookie}; HttpOnly`
             });
             res.end("logged in!!");
           }
